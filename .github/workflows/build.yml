@@ -1,4 +1,4 @@
-name: Build SeedLock
+name: Build my shit
 
 on:
   push:
@@ -38,14 +38,14 @@ jobs:
             -o SeedLock.dylib SeedLock.m
 
       - name: Ad-hoc sign
-        run: codesign -f -s - SeedLock.dylib
+        run: codesign -f -s - menu.dylib
 
       - name: Show info
         run: |
-          file SeedLock.dylib
-          otool -L SeedLock.dylib
+          file menu.dylib
+          otool -L menu.dylib
 
       - uses: actions/upload-artifact@v4
         with:
-          name: SeedLock-dylib
-          path: SeedLock.dylib
+          name: menu-dylib
+          path: menu.dylib
