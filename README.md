@@ -1,6 +1,6 @@
-# SeedLock
+# FZ
 
-SeedLock is an Objective-C / UIKit iOS dynamic library project. The source is split into feature-oriented files under `Sources/`, while `SeedLock.m` includes them in order so the existing shared static state and cross-feature helpers remain in one compilation unit.
+FZ is an Objective-C / UIKit iOS dynamic library project. The source is split into feature-oriented files under `Sources/`, while `SeedLock.m` includes them in order so the existing shared static state and cross-feature helpers remain in one compilation unit.
 
 > **Compatibility note:** this workflow builds an arm64 iOS `.dylib` with the iOS SDK on GitHub Actions. It does not package or inject the library into an app. Runtime behavior depends on the target app, Unity/IL2CPP version, symbols, and permissions.
 
