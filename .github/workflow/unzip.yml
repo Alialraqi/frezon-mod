@@ -1,0 +1,36 @@
+
+name: Unpack source
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack
+        run: |
+          test -f project.zip
+          unzip -q project.zip
+
+          rsync -a --exclude='.github' project/ ./
+
+          rm -rf project project.zip
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Add source"
+            git push
+          fi
