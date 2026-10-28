@@ -35,7 +35,7 @@ jobs:
             -miphoneos-version-min=13.0 \
             -framework UIKit -framework Foundation -framework QuartzCore \
             -install_name @rpath/SeedLock.dylib \
-            -o SeedLock.dylib SeedLock.m
+            -o menu.dylib SeedLock.m
 
       - name: Ad-hoc sign
         run: codesign -f -s - menu.dylib
