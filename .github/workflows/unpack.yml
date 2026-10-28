@@ -16,12 +16,23 @@ jobs:
 
       - name: Unpack
         run: |
+          set -e
+
           test -f project.zip
-          unzip -q project.zip
+          mkdir -p .unpack_tmp
+          unzip -q project.zip -d .unpack_tmp
 
-          rsync -a --exclude='.github' project/ ./
+          # If ZIP contains one root folder, copy its contents.
+          entries=$(find .unpack_tmp -mindepth 1 -maxdepth 1 | wc -l)
 
-          rm -rf project project.zip
+          if [ "$entries" -eq 1 ] && [ -d "$(find .unpack_tmp -mindepth 1 -maxdepth 1 -type d)" ]; then
+            root=$(find .unpack_tmp -mindepth 1 -maxdepth 1 -type d)
+            rsync -a --exclude='.github' "$root"/ ./
+          else
+            rsync -a --exclude='.github' .unpack_tmp/ ./
+          fi
+
+          rm -rf .unpack_tmp project.zip
 
       - name: Commit
         run: |
@@ -33,4 +44,6 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "Add source"
             git push
+          else
+            echo "No changes to commit"
           fi
